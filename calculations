@@ -1,0 +1,59 @@
+def arithmetic_arranger(problems, show_answers=False):
+    # Check for errors
+    if len(problems) > 5:
+        return "Error: Too many problems."
+
+    arranged_problems = ""
+    first_line = ""
+    second_line = ""
+    dash_line = ""
+    answer_line = ""
+
+    for problem in problems:
+        # Split the problem into operands and operator
+        operand1, operator, operand2 = problem.split()
+
+        # Check for errors
+        if not operand1.isdigit() or not operand2.isdigit():
+            return "Error: Numbers must only contain digits."
+        if len(operand1) > 4 or len(operand2) > 4:
+            return "Error: Numbers cannot be more than four digits."
+        if operator not in ["+", "-"]:
+            return "Error: Operator must be '+' or '-'."
+
+        # Calculate the answer
+        if operator == "+":
+            answer = int(operand1) + int(operand2)
+        else:
+            answer = int(operand1) - int(operand2)
+
+        # Determine the length of the longest operand
+        max_length = max(len(operand1), len(operand2)) + 2
+
+        # Add the operands to the first and second lines
+        first_line += operand1.rjust(max_length) + "    "
+        second_line += operator + " " + operand2.rjust(max_length - 2) + "    "
+        dash_line += "-" * max_length + "    "
+
+        # Add the answer to the answer line if needed
+        if show_answers:
+            answer_line += str(answer).rjust(max_length) + "    "
+
+    # Remove the extra spaces at the end of each line
+    first_line = first_line.rstrip()
+    second_line = second_line.rstrip()
+    dash_line = dash_line.rstrip()
+    answer_line = answer_line.rstrip()
+
+    # Combine the lines into the arranged problems string
+    arranged_problems = first_line + "\n" + second_line + "\n" + dash_line
+    if show_answers:
+        arranged_problems += "\n" + answer_line
+
+    return arranged_problems
+
+problems = ["235 + 52", "50 - 23", "1234 + 5678", "987 - 432", "1000 + 999"]
+print(arithmetic_arranger(problems))
+
+problems = ["235 + 52", "50 - 23", "1234 + 5678", "987 - 432", "1000 + 999"]
+print(arithmetic_arranger(problems, True))
